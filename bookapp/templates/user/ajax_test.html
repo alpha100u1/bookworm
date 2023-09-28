@@ -1,0 +1,44 @@
+{% extends 'user/home_layout.html'%}
+{% block content%}
+<input type="text" class="form-control border-success noround" name="" id="fullname">
+<button class="btn btn-danger noround" id="btn_name">CLICK ME</button>
+<div class="mb-3 border-primary" id="feedback">{{ data}}</div>
+<div class="mb-3 border-primary" id="ajaxfeedback"></div>
+
+
+<div class="row">
+    <div class="col">
+        
+        <input type="text" id="email" class="form-control noround">
+    </div>
+    <div class="col">
+        <button id="check" type="button" class="btn btn-warning">check username</button>
+    </div>
+    <div class="col" id="avail"></div>
+</div>
+{% endblock %}
+
+{% block customjs%}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#btn_name").click(function(){
+            //fname = $('#fullname').val() //using query strinf
+            data2send = "fullname="+fname
+            $('#ajaxfeedback').load('/submission/',data2send)
+        })
+
+        
+           $('#check').click(function(){
+             var email = $('#email').val()
+             var datacheck ='email='+email
+            $('#avail').load('/checkusername/',datacheck)
+           })
+        
+    })
+
+
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'user/home_layout.html'%}
+{% block content%}
+     <div class="content">
+        <select name="" id="states" class="form-control">
+            <option value="">Please - Select</option>
+            {% for s in states %}
+            <option value="{{ s.state_id}}">
+                {{ s.state_name}}
+            </option>
+            {% endfor %}
+        </select>
+     </div>
+     <div id="mylga"></div>
+{% endblock %}
+
+{% block customjs%}
+     <script type="text/javascript">
+        $(document).ready(function(){
+            $("#states").change(function(){
+                var selected_select = $(this).val()
+                var url = "/lga/"+selected_select
+                $('#mylga').load(url)
+            })
+            
+        })
+     </script>
+{% endblock %}

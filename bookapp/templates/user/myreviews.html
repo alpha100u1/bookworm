@@ -1,0 +1,16 @@
+{% extends 'user/home_layout.html'%}
+
+{% block content%}
+    <div id="content" style="background-color: white;"></div>
+
+    {% for m in userdeets.user_reviews%}
+        <div class="mb-3 col text-center" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            <h2 style="font-family: cursive;" class="text-danger">{{ m.rev_title}}</h2>
+            
+            <p>{{ m.rev_text}}</p>
+            <p>{{ m.rev_date}}</p>
+            
+        </div>
+        <hr>
+        {% endfor %}
+{% endblock%}

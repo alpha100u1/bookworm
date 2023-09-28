@@ -1,0 +1,100 @@
+{% extends 'user/home_layout.html'%}
+{% block content%}
+<div class="content">
+    
+
+
+  <div class="row g-5"> 
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem;">
+    <img src="/static/uploads/{{books.book_cover}}" class="img-fluid"  style="max-height:500px">
+    </div>
+  </div> 
+
+  <div class="col-md-8">
+    <h3 class="pb-4 mb-4 fst-italic ">
+     {{books.book_title}}
+    </h3>
+    <p class="border-bottom">{{books.book_desc}}</p>
+    {% if books.bookreviews %}
+    <div id="feedback"></div>
+    {% for r in books.bookreviews%}
+    <article class="blog-post">
+      <h5 class="blog-post-title">{{ r.rev_title }}</h5>
+      <p class="blog-post-meta"> {{ r.rev_date}} <a href="#">{{ r.reviewby.user_fullname}}</a></p>
+
+      <p>{{ r.rev_text}}</p>
+      <hr> 
+    </article>
+    {% else %}
+    <div class="alert alert-info">NO Reviews found</div>
+    {%endfor%}
+    {% endif%}
+      
+
+    <article>
+    <form>
+
+      
+
+      </div>
+      <div class="mb-3 row">
+        <div id="feedback"></div>
+        <label class="col-md-3">Title</label>
+        <input type="hidden" name="" id="bookid" value="{{ books.book_id}}">
+        <div class="col-md-9">
+          <input type="text" id="title" class="form-control border-info">
+        </div>
+      </div>
+       <div class="mb-3 row">
+        <label class="col-md-3">Review</label>
+        <div class="col-md-9">
+           <textarea name="" id="content" class="form-control border-info"></textarea>
+        </div>
+      </div>
+       <div class="mb-3 row">
+         <button class="btn btn-danger noround btn-lg" id="btn">Submit Review</button>
+       </div>
+    </form>  
+    </article>
+
+
+  </div>
+
+ 
+
+</div>
+
+
+
+ </div>
+</div>
+{%endblock content%}
+{%block customcss%}
+style="background-color:white"
+{%endblock%}
+{% block partner%}
+{%endblock partner%}
+{% block featured%}
+{%endblock featured%}
+
+
+
+{% block customjs%}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#btn').click(function(event){
+        event.preventDefault();
+        var title = $('#title').val()
+        var content =$('#content').val()
+        var bookid =$('#bookid').val()
+        var csrf = "{{ csrf_token()}}"
+        data2send ={"title":title,"content":content,"csrf_token":csrf,"book":bookid}
+        $.post('/submit_review/',data2send,function(serverRsp){
+          $('#feedback').html(serverRsp)
+          
+        })
+      })
+    })
+  </script>
+{% endblock%}

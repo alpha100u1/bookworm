@@ -1,0 +1,53 @@
+{% extends "user/home_layout.html"%}
+
+{% block content%}
+<form id="myform">
+    <div id="checkfeed"></div>
+    <div class="content px-3">
+        <div class="row">
+            <div class="col">
+                {{ cform.email.label}}
+                {{ cform.email(class_='form-control border-success')}}
+            </div>
+            <div class="col">
+                <label> This filed is required </label>
+                {{ cform.csrf_token }}
+                {{ cform.btnsubmit(class_='btn btn-danger form-control', type='button')}}
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+    
+{% block customjs%}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnsubmit").click(function(event){
+                event.preventDefault()
+
+                // var myform = document.getElementById('myform')
+                var data2send = $('#myform').serialize()
+                //console.log(data)
+                $.ajax({
+                    url:'/ajaxopt/',
+                    type:'post',
+                    data:data2send,
+                    error:function(msgretrn){
+                        console.log(msgretrn)
+                    },
+                    success:function(serverRsp){
+                        $('#checkfeed').html(serverRsp)
+                        $('#checkfeed').addClass('alert alert-success')
+                    },
+                    complete:function(){
+                        $("#btnsubmit").val('subscribed')
+                    },
+                    beforeSend:function(){
+                        $("#btnsubmit").val('Please wait....')
+                    }
+                })
+            })
+        })
+
+    </script>
+{% endblock %}
